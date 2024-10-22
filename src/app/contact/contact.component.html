@@ -1,0 +1,57 @@
+<section class="backgroundBlog">
+    <h1 style="z-index: 10; font-style: italic; font-size: 55px;">Contact</h1>
+</section>
+
+
+<!-- Contact Form -->
+<section class="contactForm">
+    <h1 class="mb-5">Get In Touch With Us: </h1>
+    <div class="container row">
+      <div class="contacts col-12 col-md-6">
+        <div>
+          <h5>Address</h5>
+          <p>13 Fifth Avenue, Cairo, Egypt</p>
+        </div>
+        <div>
+          <h5>Phone</h5>
+          <p>+20 111 234 5678</p>
+        </div>
+        <div>
+          <h5>Email</h5>
+          <p>contact&#64;travelblog.com</p>
+        </div>
+        <div>
+          <h5>Social Media</h5>
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-twitter"></i>
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+      </div>
+      <div class="form col-12 col-md-6">
+        <form (submit)="getForm($event, message)" action="" class="row" [style.display]="isSubmit ? 'none' : 'block'">
+          <input required class="col-12 p-2" type="text" placeholder="Name" name="Name" #nameInput>
+          <input required class="col-12 p-2" type="email" name="Email" placeholder="Email" #emailInput>
+          <textarea required class="col-12 p-2" name="Message" placeholder="Message" #messageInput></textarea>
+          <button class="btn btn-primary col-4 col-md-2">Submit</button>
+        </form>
+        <div class="sentMes" [style.display]="isSubmit ? 'block' : 'none'">
+          <p>The message has been sent. We will contact you soon.</p>
+          <div class="message" #message>
+            <p><span>Name:</span> {{this.formData?.get("Name")}}</p>
+            <p><span>Email:</span> {{this.formData?.get("Email")}}</p>
+            <p><span>Message:</span> {{this.formData?.get("Message")}}</p>
+            <p class = "link" (click)="resetForm(nameInput, emailInput, messageInput)">Write another Message</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <!-- section anything -->
+<section class="enjoy">
+    <div class="container">
+        <h2>Enjoy a world of unforgettable travel experiences and captivating stories on our blog, where every adventure awaits!</h2>
+        <button class="btn btn-primary" style="font-size: 25px; padding: 5px 20px;">Explore</button>
+    </div>
+</section>

@@ -1,0 +1,101 @@
+<!-- Profile section -->
+<section class="profile">
+    <div class="container row">
+        <!-- Profile Photo and Info -->
+        <div class="profilePhoto col-md-5">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile Picture" id="displayImage">
+            <h3 class="h3User mt-3">{{user.username}}</h3>
+            <p class="pEmail">{{user.email}}</p>
+        </div>
+        <!-- Profile Settings -->
+        <div class="settings col-md-6">
+            <h2 class="mb-4">Profile Settings</h2>
+            <div class="input">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="profileUsername" placeholder="Enter new username" autocomplete="off" [value]="user.username" #username>
+            </div>
+            <div class="input">
+                <label for="password">Password</label>
+                <input type="text" name="password" id="profilePassword" placeholder="Enter new password" [value]="user.password" #password>
+            </div>
+            <div class="input">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="profileEmail" placeholder="Enter new email" autocomplete="off" [value]="user.email" #email>
+            </div>
+            <button id="saveBtn" class="mt-3" (click)="saveChanges(username, password, email)">Save Changes</button>
+            <p class="errorMessage mt-3" [style.display] = "isError? 'block' : 'none'">{{errorMes}}</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- section create a post -->
+<section class="createPost">
+    <div class="container">
+        <h2>Create a post</h2>
+        <div class="create">
+            <form action="" class="row" (submit)="createPost($event)">
+                <input type="text" name="title" id="" placeholder="Title" class="col-md-6" required #title>
+                <input type="text" name="description" id="" placeholder="Description" class="col-md-6" required #desc>
+                <textarea name="details" id="" placeholder="Details" class="col-12" required #details></textarea>
+
+
+                <div class="col-md-6">
+                    <label for="image">Upload an Image (Optional):</label>
+                    <input type="file" name="image" id="image" accept="image/*" class="optionalInput" #image>
+                </div>
+
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+
+    <!-- section show posts -->
+<section class="showPost">
+    <div class="container">
+        <h2 style="font-size: 40px; text-transform: uppercase; text-align: center; margin: 40px 0;">Posts</h2>
+        <div class="posts row">
+            @if (user.posts.length > 0) {
+                @for (post of user.posts; track $index) {
+                    @if (post.image === null) {
+                        <div class="singlePost col-12">
+                            <h2 style="margin: 0px 0 20px 0;">{{post.title}}</h2>
+                            <p>{{post.description}}</p>
+                            <p>{{post.details}}</p>
+                            <p>Author: {{user.username}}</p>
+                            <p>Date: {{post.date}}</p>
+                            <div class="heart">
+                                <i class="me-2 fa-regular fa-heart " [class.fa-solid] = "isClicked" [style.color] = "isClicked ? '#007BFF' : '#777777'" (click)="addLike()"></i>
+                                <p>{{number}}</p>
+                            </div>
+                        </div>
+                    }
+
+                    @else {
+                    <!-- with image -->
+                    <div class="singlePostWithImg row col-12">
+                        <img class="col-md-6" [src]="post.image" alt="Post Image">
+                        <div class="postDetail col-md-6">
+                            <h2 style="margin: 0px 0 20px 0;">{{post.title}}</h2>
+                            <p>{{post.description}}</p>
+                            <p>{{post.details}}</p>
+                            <p>Author: {{user.username}}</p>
+                            <p>Date: {{post.date}}</p>
+                            <div class="heart">
+                                <i class="me-2 fa-regular fa-heart " [class.fa-solid] = "isClicked" [style.color] = "isClicked ? '#007BFF' : '#777777'" (click)="addLike()"></i>
+                                <p>{{number}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                }
+            } @else {
+                <p class="noPost">You Don't Have Posts.</p>
+            }
+
+        </div>
+    </div>
+</section>

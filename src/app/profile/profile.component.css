@@ -1,0 +1,232 @@
+/* Profile section */
+.profile {
+    min-height: 100vh;
+    padding: 100px 0;
+    background-color: #f5f5f5;
+}
+
+.profile .container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profilePhoto {
+    text-align: center;
+}
+
+.profilePhoto img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #007BFF;
+    object-fit: cover;
+}
+
+.profilePhoto h3 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #333;
+}
+
+.profilePhoto p {
+    color: #777;
+    font-size: 1rem;
+}
+
+.settings {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.settings h2 {
+    font-size: 1.75rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.settings .input {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.settings .input label {
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.settings .input input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.settings .input input:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+button#saveBtn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+button#saveBtn:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .profile .container {
+        flex-direction: column;
+    }
+
+    .profilePhoto {
+        margin-bottom: 30px;
+    }
+}
+
+
+/* Create a post section */
+.createPost {
+    border-top: solid 1px #ccc;
+    padding: 50px 0;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.createPost h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 40px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.createPost .create {
+    display: flex;
+    justify-content: center;
+}
+
+.createPost .create form {
+    width: 100%;
+    max-width: 700px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.createPost form input,
+.createPost form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.createPost form input:focus,
+.createPost form textarea:focus {
+    border-color: #007bff;
+}
+
+.createPost form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.createPost form .btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.createPost form .btn:hover {
+    background-color: #0056b3;
+}
+
+.createPost form .optionalInput {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .createPost form input.col-md-6 {
+        width: 100%;
+    }
+}
+
+
+/* section show posts */
+.singlePost,
+.singlePostWithImg {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    margin: 40px 0;
+}
+
+.singlePost p,
+.singlePostWithImg p {
+    color: #777777;
+}
+
+.heart {
+    display: flex;
+    margin: 30px 60px 0 0;
+    justify-content: flex-start;
+}
+
+i {
+    font-size: 25px;
+    color: #777777;
+    transition: 0.3s;
+}
+
+i:hover {
+    color: #007BFF;
+    cursor: pointer;
+}
+
+
+.errorMessage {
+    color: red;
+  }
+
+
+.noPost {
+    font-size: 30px;
+    text-align: center;
+    font-weight: 600;
+    margin: 100px 0;
+    color: #007bff;
+}

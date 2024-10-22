@@ -1,0 +1,103 @@
+.backgroundBlog {
+    height: 70vh;
+    background-image: url("../../assets/images/blogBackground.jpg");
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.backgroundBlog::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    position: absolute;
+    top: 0;
+}
+
+
+
+/* posts */
+.postSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 30px;
+    border-bottom: #aaaaab 1px solid;
+}
+
+.card img {
+    width: 100%;
+    height: 400px;
+}
+
+.card {
+    width: 30%;
+    margin: 20px;
+    /* height: 600px; */
+}
+
+.postSection .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.catigories button {
+    margin: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+
+    .card img {
+        height: 300px;
+    }
+}
+
+
+/* enjoy section */
+.enjoy {
+    height: 70vh;
+    background-image: url("../../assets/images/enjoy.jpg");
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.enjoy::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    position: absolute;
+    top: 0;
+}
+
+.enjoy .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    z-index: 10;
+}
+
+.enjoy .container h2 {
+    width: 60%;
+}

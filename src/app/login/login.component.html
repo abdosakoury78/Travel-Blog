@@ -1,0 +1,40 @@
+<section>
+    <div class="container" [class.flipped]="isFlipped">
+        <div class="form-container">
+          <!-- Login Form -->
+          <div class="form-box login-box">
+            <h2 class="mb-3">Login</h2>
+            <form (submit)="onSubmitLogin($event, userLog, passwordLog)">
+              <div class="input-box">
+                <input type="text" required placeholder="Username" name="username" autocomplete="off" #userLog>
+              </div>
+              <div class="input-box">
+                <input type="password" required placeholder="Password" name="password" #passwordLog>
+              </div>
+              <button type="submit" class="btn">Login</button>
+              <p class="flip-link">Don't have an account? <a (click)="flipToSignup()">Sign up</a></p>
+              <p class="errorMessage mt-3" [style.display] = "isError? 'block' : 'none'">{{errorMes}}</p>
+            </form>
+          </div>
+
+          <!-- Sign Up Form -->
+          <div class="form-box signup-box">
+            <h2 class="mb-3">Sign Up</h2>
+            <form (submit)="onSubmitSignup($event, usernameSign, emailSign, passSign)">
+              <div class="input-box">
+                <input type="text" required placeholder="Username" name="username" autocomplete="off" #usernameSign>
+              </div>
+              <div class="input-box">
+                <input type="email" required placeholder="Email" name="email" autocomplete="off" #emailSign>
+              </div>
+              <div class="input-box">
+                <input type="password" required placeholder="Password" name="password" #passSign>
+              </div>
+              <button type="submit" class="btn">Sign Up</button>
+              <p class="flip-link">Already have an account? <a (click)="flipToLogin()">Login</a></p>
+              <p class="errorMessage mt-3" [style.display] = "isError? 'block' : 'none'">{{errorMes}}</p>
+            </form>
+          </div>
+        </div>
+      </div>
+</section>

@@ -1,0 +1,73 @@
+<section class="backgroundBlog">
+    <h1 style="z-index: 10; font-style: italic; font-size: 55px;">Post</h1>
+</section>
+
+<!-- Post section -->
+<section class="post">
+    <div class="container row">
+        <img class="col-md-6" [src]="post?.image" [alt]="post?.title">
+        <div class="info col-md-6">
+            <h2>{{post?.title}}</h2>
+            <p>{{post?.description}}</p>
+            <p>{{post?.content}}</p>
+            <p>Author: {{post?.author}}</p>
+            <p>Date: {{post?.date}}</p>
+            <div class="icons mt-5">
+                <div class="heart">
+                    <i class="me-2 fa-regular fa-heart " [class.fa-solid] = "isClicked" [style.color] = "isClicked ? '#007BFF' : '#777777'" (click)="addLike()"></i>
+                    <p>{{number}}</p>
+                </div>
+                <i class="fa-regular fa-comment " (click)="goToComment()"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- comments -->
+
+    <div class="comments container">
+        <h2>comments{{'{ ' + comment + ' }'}}</h2>
+        @for (person of comments; track $index) {
+            <div class="person row">
+                <img class="col-md-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profile">
+                <div class="profile-info col-md-8">
+                    <div class="comment">
+                        <div class="name">
+                            <p>{{person.name}}</p>
+                            <div class="name-icon">
+                                <i class="fa-solid fa-comment " (click)="showReplyText(person.id)"></i>
+                                <p (click)="showReplyText(person.id)">REBLY</p>
+                            </div>
+                        </div>
+                        <p>{{person.comment}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="replyForm" [style.display] = "person.replyVisible? 'block' : 'none'">
+                <input #replyText placeholder="Write a reply" type="text" name="" id="">
+                <button class="btn btn-primary" (click)="makeReply(person.id, replyText)">Reply</button>
+            </div>
+
+            @if (person.replies.length > 0) {
+                @for (item of person.replies; track $index) {
+                    <div class="replies mb-5">
+                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profile">
+                        <div class="profile-info">
+                            <p>UnKnown</p>
+                            <p><span style="color: #007BFF;">&#64;{{person.name}}</span> {{item}}</p>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+
+    <!-- make a comment -->
+
+    <div class="makeComment container">
+        <h2>Make a Comment</h2>
+        <div class="make">
+            <textarea #commentInput name="comment" id="" placeholder="comment"></textarea>
+            <a class="btn btn-primary" (click)="addComment(commentInput)">Send a Comment</a>
+        </div>
+    </div>
+</section>

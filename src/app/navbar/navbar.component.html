@@ -1,0 +1,15 @@
+<nav>
+    <div class="logo">
+        <p>Wanderlust</p>
+    </div>
+    <div class="links" [class.list] = "listClicked">
+        <a routerLink="home">Home</a>
+        <a routerLink="blog">Blog</a>
+        <a routerLink="contact">Contact</a>
+        <!--  [style.display] = "loginService.isProfile? 'inline-block' : 'none'" -->
+        <a routerLink="profile" [style.display] = "loginService.isProfile? 'inline-block' : 'none'">Profile</a>
+        <a routerLink="login" class="btn btn-outline-primary" [style.display] = "loginService.isProfile? 'none' : 'inline-block'" (click)="login()">Login</a>
+        <a routerLink="home" class="btn btn-outline-primary" (click)="loginService.logout()" [style.display] = "loginService.isProfile? 'inline-block' : 'none'">Logout</a>
+    </div>
+    <i class="fa-solid fa-bars" (click)="showLinks()"></i>
+</nav>

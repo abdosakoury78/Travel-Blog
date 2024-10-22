@@ -1,0 +1,176 @@
+.backgroundBlog {
+    height: 50vh;
+    background-image: url("../../assets/images/enjoy2.png");
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.backgroundBlog::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    position: absolute;
+    top: 0;
+}
+
+
+/* post section */
+
+.post {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0;
+}
+
+.container .info h2 {
+    text-transform: uppercase;
+    font-size: 40px;
+    margin: 40px 0;
+}
+
+.container .info p {
+    color: #777777;
+}
+
+.icons {
+    display: flex;
+}
+
+.heart {
+    display: flex;
+    margin-right: 60px;
+    justify-content: center;
+}
+ i {
+    font-size: 30px;
+    color: #777777;
+    transition: 0.3s;
+}
+/* 007BFF */
+
+ i:hover {
+    color: #007BFF;
+    cursor: pointer;
+}
+
+
+/* comments */
+.comments,
+.makeComment {
+    align-self: flex-start;
+    margin: 40px auto;
+}
+
+.comments h2,
+.makeComment h2 {
+    border-bottom: solid 1px #dfdede;
+    padding: 10px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.comments .person img {
+    width: 82px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+
+.profile-info {
+    color: #777777;
+}
+
+.person {
+    border-bottom: solid 1px #efeeee;
+    margin: 30px 0;
+}
+
+.name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 50px;
+}
+
+
+.name .name-icon {
+    display: flex;
+    gap: 10px;
+}
+
+.name-icon i {
+    font-size: 25px;
+    color: #777777;
+}
+
+.name-icon p {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.name-icon p:hover {
+    color: #007BFF;
+}
+
+/* make a comment */
+.make {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.make textarea {
+    /* align-self: baseline; */
+    width: 80%;
+    padding: 10px;
+    height: 150px;
+}
+
+.make textarea:focus,
+.replyForm input:focus {
+    border: none;
+    outline: #007BFF 2px solid;
+}
+
+.replyForm {
+    margin-left: 60px;
+    display: flex;
+}
+
+.replyForm input {
+    padding: 10px;
+    width: 30%;
+    margin: 0 30px;
+}
+
+@media only screen and (max-width: 600px) {
+    .replyForm input {
+        width: 50%;
+    }
+}
+
+
+/* replies  */
+.replies {
+    display: flex;
+    gap: 20px;
+    border-bottom: solid 1px #efeeee;
+    padding-bottom: 20px;
+    margin: 0 80px;
+}
+
+.replies img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}

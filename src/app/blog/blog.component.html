@@ -1,0 +1,70 @@
+<section class="backgroundBlog">
+    <h1 style="z-index: 10; font-style: italic; font-size: 55px;">Blog</h1>
+</section>
+
+<!-- posts -->
+<section class="postSection mt-5 text-center">
+    <h2 style="font-size: 55px;">Posts</h2>
+    <div class="catigories">
+
+        <button class="btn btn-primary" (click)="filterCategories($event)">All</button>
+        <button class="btn btn-primary" (click)="filterCategories($event)">Europe</button>
+        <button class="btn btn-primary" (click)="filterCategories($event)">Adventure</button>
+        <button class="btn btn-primary" (click)="filterCategories($event)">Asia</button>
+        <button class="btn btn-primary" (click)="filterCategories($event)">Africa</button>
+        <button class="btn btn-primary" (click)="filterCategories($event)">North America</button>
+        <button class="btn btn-primary" (click)="filterCategories($event)">South America</button>
+    </div>
+    <div class="container">
+        @for (post of data; track $index) {
+            @if (buttonClicked === '' || buttonClicked === 'All') {
+                <div class="card">
+                    <img src="{{post?.image}}" alt="#" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post?.title }}</h5>
+                        <p class="card-text">{{ post?.description }}</p>
+                        <a class="btn btn-primary" routerLink="{{post?.id}}">Read More</a>
+                    </div>
+                </div>
+            } @else if (buttonClicked === post.category) {
+                <div class="card">
+                    <img src="{{post?.image}}" alt="#" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post?.title }}</h5>
+                        <p class="card-text">{{ post?.description }}</p>
+                        <a   class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            }
+        }
+      </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link"   aria-label="Previous" (click)="changePage(page - 1)">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" routerLink="/blog" (click)="changePage(1)">1</a></li>
+          <li class="page-item"><a class="page-link" routerLink="/blog" (click)="changePage(2)">2</a></li>
+          <li class="page-item"><a class="page-link" routerLink="/blog" (click)="changePage(3)">3</a></li>
+          <li class="page-item">
+            <a class="page-link"   aria-label="Next" (click)="changePage(page + 1)">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+</section>
+
+
+<!-- section anything -->
+<section class="enjoy">
+    <div class="container">
+        <h2>Enjoy a world of unforgettable travel experiences and captivating stories on our blog, where every adventure awaits!</h2>
+        <button class="btn btn-primary" style="font-size: 25px; padding: 5px 20px;">Explore</button>
+    </div>
+</section>
