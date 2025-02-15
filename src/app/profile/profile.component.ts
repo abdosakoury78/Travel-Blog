@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { LoginService } from '../login.service';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [FooterComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

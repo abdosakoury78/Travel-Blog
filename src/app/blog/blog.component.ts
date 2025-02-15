@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginService } from '../login.service';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, FooterComponent],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.css'
 })

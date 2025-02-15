@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ post?.title }}</h5>
                         <p class="card-text">{{ post?.description }}</p>
-                        <a   class="btn btn-primary">Read More</a>
+                        <a   class="btn btn-primary" routerLink="{{post?.id}}">Read More</a>
                     </div>
                 </div>
             }
@@ -68,3 +68,4 @@
         <button class="btn btn-primary" style="font-size: 25px; padding: 5px 20px;">Explore</button>
     </div>
 </section>
+<app-footer></app-footer>
