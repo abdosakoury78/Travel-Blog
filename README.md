@@ -1,27 +1,100 @@
-# TravelBlog
+✈️ Travel Blog
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.3.
+A responsive single-page travel blog application built with Angular 18, featuring blog post browsing, user authentication, profile management, and post creation.
 
-## Development server
+🚀 Live Demo
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+🔗 https://travel-blog-sorbet-884aab.netlify.app/
 
-## Code scaffolding
+📸 Features
+🏠 Home Page — Landing section with a hero banner and a preview of the 3 latest blog posts
+📝 Blog Page — Paginated list of travel posts fetched from a remote JSON API (6 posts per page, 3 pages)
+📄 Post Detail Page — Full post view with like toggle, comment thread, and reply support
+🔐 Auth System — Flip-card Login / Sign-up form with client-side validation using localStorage
+👤 Profile Page — View and edit account details, and create new blog posts with optional image upload
+📬 Contact Page — Static contact/inquiry section
+📱 Responsive Navbar — Mobile hamburger menu with active link highlighting
+🛠️ Tech Stack
+Technology	Purpose
+Angular 18	Frontend framework (standalone components)
+TypeScript	Type-safe development
+Bootstrap 5	Responsive layout and UI utilities
+Font Awesome 6	Icon library
+Angular HttpClient	REST API consumption
+Angular Router	Client-side navigation with route params
+LocalStorage	Client-side user persistence
+Karma + Jasmine	Unit testing
+📁 Project Structure
+src/
+├── app/
+│   ├── app.component.*          # Root shell (navbar + router outlet)
+│   ├── app.config.ts            # App-level providers (HttpClient, Router)
+│   ├── app.routes.ts           # Route definitions
+│   ├── login.service.ts        # Singleton auth state service
+│   │
+│   ├── navbar/                # Top navigation bar
+│   ├── home/                  # Landing page + latest posts preview
+│   ├── blog/                  # Paginated blog listing
+│   ├── post-page/             # Individual post view (comments, likes)
+│   ├── login/                 # Login + signup flip-card
+│   ├── profile/               # User profile editor + post creator
+│   ├── contact/               # Contact page
+│   └── footer/                # Shared footer component
+│
+├── assets/
+│   └── images/                # Static image assets
+├── styles.css                 # Global styles
+└── index.html                 # App entry point
+⚙️ Getting Started
+Prerequisites
+Node.js v18+
+Angular CLI v18
+npm install -g @angular/cli
+Installation
+git clone https://github.com/abdosakoury78/travel-blog.git
+cd travel-blog
+npm install
+Running Locally
+npm start
+# or
+ng serve
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Open http://localhost:4200
+ in your browser.
 
-## Build
+Building for Production
+ng build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Output will be in dist/travel-blog/browser/.
 
-## Running unit tests
+Running Tests
+ng test
+🔌 Data Source
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Blog posts are fetched from a public GitHub JSON file:
 
-## Running end-to-end tests
+https://raw.githubusercontent.com/abdosakoury78/my-json-files/refs/heads/master/posts.json
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Each post contains:
+id, title, description, details, image, date, category.
 
-## Further help
+🔐 Authentication Notes
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Authentication is handled client-side only using localStorage:
+
+Users stored under users
+Current session stored under user
+LoginService manages auth state
+User-created posts are saved inside the user object
+
+⚠️ This is a frontend-only demo. Passwords are stored in plain text and should not be used in production.
+
+📦 Scripts Reference
+Command	Description
+npm start	Run development server
+npm run build	Production build
+npm run watch	Watch mode build
+npm test	Run unit tests
+📄 License
+
+This project is open source and intended for educational use.
