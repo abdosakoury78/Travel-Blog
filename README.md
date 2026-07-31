@@ -6,7 +6,7 @@ A responsive single-page travel blog application built with **Angular 18**, feat
 
 ## 🚀 Live Demo
 
-> https://travel-blog-sorbet-884aab.netlify.app/
+> https://travel-blog-nine-mauve.vercel.app/
 
 ---
 
