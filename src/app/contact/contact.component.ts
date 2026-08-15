@@ -1,30 +1,93 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
 import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [FooterComponent],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink
+  ],
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  styleUrl: './contact.component.css'
 })
 export class ContactComponent {
+
+  private fb = inject(FormBuilder);
+
   isSubmit = false;
-  formData: any;
-  response: any;
 
-  getForm(event: any, message: any) {
-    event.preventDefault();
-    this.formData = new FormData(event.target);
-    if (this.formData.get("Name") !== "" && this.formData.get("Message") !== "" && this.formData.get("Email") !== "") {
-      this.isSubmit = true;
+  contactForm = this.fb.nonNullable.group({
+
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50)
+      ]
+    ],
+
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+
+    message: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ]
+    ]
+
+  });
+
+
+  onSubmit(): void {
+
+    if (this.contactForm.invalid) {
+      this.contactForm.markAllAsTouched();
+      return;
     }
+
+    console.log(this.contactForm.value);
+
+    this.isSubmit = true;
   }
 
-  resetForm(name: any, email : any, message : any) {
+
+  writeAnotherMessage(): void {
+
+    this.contactForm.reset();
+
     this.isSubmit = false;
-    name.value = "";
-    email.value = "";
-    message.value = "";
   }
+
+
+  get name() {
+    return this.contactForm.controls.name;
+  }
+
+
+  get email() {
+    return this.contactForm.controls.email;
+  }
+
+
+  get message() {
+    return this.contactForm.controls.message;
+  }
+
 }

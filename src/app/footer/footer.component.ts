@@ -11,4 +11,5 @@ import { LoginComponent } from '../login/login.component';
 })
 export class FooterComponent {
   // Component logic goes here
+  currentYear = new Date().getFullYear();
 }

@@ -1,56 +1,168 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { LoginService } from '../login.service';
+import { RouterLink } from '@angular/router';
+
 import { FooterComponent } from '../footer/footer.component';
+
+interface Post {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+}
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink, FooterComponent],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.css'
 })
 export class BlogComponent implements OnInit {
-  router = inject(Router);
-  http = inject(HttpClient);
-  allPosts: any[] = [];
-  data: any;
-  buttonClicked: string = '';
-  page = 1;
-  postsPerPage = 6;
 
-  fetchData() {
-    this.http.get('https://raw.githubusercontent.com/abdosakoury78/my-json-files/refs/heads/master/posts.json').subscribe(response => {
-      this.allPosts = response as any[];
-      this.changePage(this.page);
-    });
-  }
+  private readonly http = inject(HttpClient);
+  allPosts: Post[] = [];
+  data: Post[] = [];
+  categories: string[] = [
+    'All',
+    'Europe',
+    'Adventure',
+    'Asia',
+    'Africa',
+    'North America',
+    'South America'
+  ];
+
+  selectedCategory = 'All';
+  currentPage = 1;
+  postsPerPage = 6;
+  totalPages = 1;
+  isLoading = false;
 
   ngOnInit(): void {
-    this.fetchData();
+    this.fetchPosts();
   }
 
-  filterCategories(event: any) {
-    this.buttonClicked = event.target.textContent;
+
+  // =========================================================
+  // Fetch Posts
+  // =========================================================
+
+  private fetchPosts(): void {
+
+    this.isLoading = true;
+
+    this.http
+      .get<Post[]>(
+        'https://raw.githubusercontent.com/abdosakoury78/my-json-files/refs/heads/master/posts.json'
+      )
+      .subscribe({
+        next: (posts) => {
+
+          this.allPosts = posts;
+
+          this.applyFiltersAndPagination();
+
+          this.isLoading = false;
+        },
+
+        error: (error) => {
+
+          console.error('Failed to load posts:', error);
+
+          this.isLoading = false;
+        }
+      });
   }
 
-  changePage(page: number) {
-    this.page = page;
+
+  // =========================================================
+  // Category Filter
+  // =========================================================
+
+  filterCategories(category: string): void {
+
+    this.selectedCategory = category;
+    this.currentPage = 1;
+
     this.applyFiltersAndPagination();
   }
 
-  applyFiltersAndPagination() {
+
+  // =========================================================
+  // Filter + Pagination
+  // =========================================================
+
+  private applyFiltersAndPagination(): void {
+
     let filteredPosts = this.allPosts;
 
-    const startIndex = (this.page - 1) * this.postsPerPage;
-    const endIndex = startIndex + this.postsPerPage;
-    if(this.page === 3) {
-      this.data = filteredPosts.slice(startIndex);
-      return;
-    } else if(this.page > 3 || this.page < 1) {
+    if (this.selectedCategory !== 'All') {
+
+      filteredPosts = this.allPosts.filter(
+        post => post.category === this.selectedCategory
+      );
+
+    }
+
+    this.totalPages = Math.ceil(
+      filteredPosts.length / this.postsPerPage
+    );
+
+    if (this.totalPages === 0) {
+      this.totalPages = 1;
+    }
+
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
+
+
+    // Pagination
+
+    const startIndex =
+      (this.currentPage - 1) * this.postsPerPage;
+
+    const endIndex =
+      startIndex + this.postsPerPage;
+
+
+    this.data = filteredPosts.slice(
+      startIndex,
+      endIndex
+    );
+  }
+
+  changePage(page: number): void {
+
+    if (
+      page < 1 ||
+      page > this.totalPages ||
+      page === this.currentPage
+    ) {
       return;
     }
-    this.data = filteredPosts.slice(startIndex, endIndex);
+
+    this.currentPage = page;
+
+    this.applyFiltersAndPagination();
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
+
+  get pages(): number[] {
+
+    return Array.from(
+      { length: this.totalPages },
+      (_, index) => index + 1
+    );
+
+  }
+
 }

@@ -1,15 +1,100 @@
-<nav>
-    <div class="logo">
-        <p>Wanderlust</p>
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary shadow-sm">
+  <div class="container-fluid px-3 px-md-5">
+
+    <!-- Logo -->
+    <a
+      class="navbar-brand fw-bold fs-3"
+      routerLink="/home"
+    >
+      Wanderlust
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="showLinks()"
+      aria-label="Toggle navigation"
+    >
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Navigation -->
+    <div
+      class="navbar-collapse"
+      [class.show]="listClicked"
+    >
+      <ul class="navbar-nav ms-auto align-items-md-center gap-md-2">
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/home"
+            routerLinkActive="active"
+          >
+            Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/blog"
+            routerLinkActive="active"
+          >
+            Blog
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/contact"
+            routerLinkActive="active"
+          >
+            Contact
+          </a>
+        </li>
+
+        @if (isProfile()) {
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/profile"
+              routerLinkActive="active"
+            >
+              Profile
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="btn btn-navbar"
+              routerLink="/home"
+              (click)="logout()"
+            >
+              Logout
+            </a>
+          </li>
+
+        } @else {
+
+          <li class="nav-item">
+            <a
+              class="btn btn-navbar"
+              routerLink="/login"
+              (click)="login()"
+            >
+              Login
+            </a>
+          </li>
+
+        }
+
+      </ul>
     </div>
-    <div class="links" [class.list] = "listClicked">
-        <a routerLink="home">Home</a>
-        <a routerLink="blog">Blog</a>
-        <a routerLink="contact">Contact</a>
-        <!--  [style.display] = "loginService.isProfile? 'inline-block' : 'none'" -->
-        <a routerLink="profile" [style.display] = "loginService.isProfile? 'inline-block' : 'none'">Profile</a>
-        <a routerLink="login" class="btn btn-outline-primary" [style.display] = "loginService.isProfile? 'none' : 'inline-block'" (click)="login()">Login</a>
-        <a routerLink="home" class="btn btn-outline-primary" (click)="loginService.logout()" [style.display] = "loginService.isProfile? 'inline-block' : 'none'">Logout</a>
-    </div>
-    <i class="fa-solid fa-bars" (click)="showLinks()"></i>
+
+  </div>
 </nav>
+

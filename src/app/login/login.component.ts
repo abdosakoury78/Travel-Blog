@@ -32,24 +32,24 @@ export class LoginComponent {
   }
 
   onSubmitLogin(event : any, username : any, password : any) {
-    event.preventDefault();
-    this.formData = new FormData(event.target);
-    if(this.formData.get('username') !== "" && this.formData.get("password") !== "") {
-      for(let user of this.users) {
-        if(user.username === this.formData.get('username') && user.password === this.formData.get('password')) {
-          this.loginService.isProfile = true;
-          this.loginService.loginBtn();
-          localStorage.setItem("user", JSON.stringify(user));
-          this.router.navigate(['/home']);
-          username.value = "";
-          password.value = "";
-          break;
-        } else {
-          this.errorMes = "Wrong in username or password.";
-          this.isError = true;
-        }
-      }
-    }
+    // event.preventDefault();
+    // this.formData = new FormData(event.target);
+    // if(this.formData.get('username') !== "" && this.formData.get("password") !== "") {
+    //   for(let user of this.users) {
+    //     if(user.username === this.formData.get('username') && user.password === this.formData.get('password')) {
+    //       this.loginService.isProfile = true;
+    //       this.loginService.loginBtn();
+    //       localStorage.setItem("user", JSON.stringify(user));
+    //       this.router.navigate(['/home']);
+    //       username.value = "";
+    //       password.value = "";
+    //       break;
+    //     } else {
+    //       this.errorMes = "Wrong in username or password.";
+    //       this.isError = true;
+    //     }
+    //   }
+    // }
   }
 
   getLastId(): number {

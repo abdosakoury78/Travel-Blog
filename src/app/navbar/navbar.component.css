@@ -1,90 +1,280 @@
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 50px;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    background-color: #007BFF;
-    position: fixed;
-    z-index: 99;
+
+/* =========================================================
+   Navbar
+   ========================================================= */
+
+.navbar {
+  min-height: 64px;
 }
 
 
-.logo p {
-    font-size: 30px;
-    color: #F8F9FA;
-    font-weight: bold;
-    margin: 10px;
+/* =========================================================
+   Logo
+   ========================================================= */
+
+.navbar-brand {
+  color: var(--text-white) !important;
+
+  transition:
+    opacity var(--transition-normal),
+    transform var(--transition-normal);
 }
 
-.links a {
-    color: #F8F9FA;
-    font-size: 18px;
-    text-decoration: none;
-    margin:10px;
-    transition: 0.3s;
+.navbar-brand:hover {
+  color: var(--text-white) !important;
+
+  opacity: 0.9;
+
+  transform: translateY(-1px);
 }
 
-.btn-outline-primary {
-    /* background-color: #FF6B35; */
-    color: #FF6B35;
-    border-color: #FF6B35;
-    background-color: transparent;
+
+/* =========================================================
+   Navigation Links
+   ========================================================= */
+
+.navbar .nav-link {
+  position: relative;
+
+  color: var(--text-white) !important;
+
+  font-weight: 500;
+
+  transition:
+    color var(--transition-normal),
+    opacity var(--transition-normal),
+    transform var(--transition-normal);
 }
 
-.links a:hover {
-    color: #FF5733;
+.navbar .nav-link:hover {
+  color: var(--text-white) !important;
+
+  opacity: 0.8;
+
+  transform: translateY(-1px);
 }
 
-.links a:last-child:hover {
-    color: #F8F9FA;
-    background-color: #FF6B35;
+
+/* Active Link */
+
+.navbar .nav-link.active {
+  font-weight: 600;
 }
 
-.links a:nth-child(5):hover {
-    color: #F8F9FA;
-    background-color: #FF6B35;
+.navbar .nav-link.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 8px;
+  right: 8px;
+  bottom: 2px;
+
+  height: 2px;
+
+  background-color: var(--text-white);
+
+  border-radius: 2px;
+
+  transform: scaleX(1);
+  transform-origin: center;
 }
 
- i {
-    cursor: pointer;
-    font-size: 25px;
-    color: #F8F9FA;
-    /* margin-top: 20px; */
-    display: none;
+
+/* =========================================================
+   Login / Logout Button
+   ========================================================= */
+
+.btn-navbar {
+  color: var(--secondary-color) !important;
+
+  background-color: transparent;
+
+  border: 1px solid var(--secondary-color);
+
+  font-weight: 500;
+
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal),
+    border-color var(--transition-normal),
+    transform var(--transition-fast),
+    box-shadow var(--transition-normal);
 }
 
-@media only screen and (max-width: 600px) {
-    nav {
-        padding: 10px 20px;
-    }
-     i {
-        display: inline-block;
-    }
+.btn-navbar:hover {
+  color: var(--text-white) !important;
 
-    .links {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        background-color: #007BFF;
-        right: 0;
-        top: 50px;
-        width: 0%;
-        opacity: 0;
-        transition: 0.4s;
-    }
+  background-color: var(--secondary-color);
 
-    .list {
-        width: 100%;
-        opacity: 1;
-        transition: 0.4s;
-    }
+  border-color: var(--secondary-color);
 
-    .btn-outline-primary {
-        width: 80%;
-        background-color: #FF6B35;
-    }
+  transform: translateY(-1px);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-navbar:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   Mobile Toggle
+   ========================================================= */
+
+.navbar-toggler {
+  border: none;
+
+  color: var(--text-white);
+
+  transition:
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
+}
+
+.navbar-toggler:hover {
+  opacity: 0.85;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler i {
+  font-size: 22px;
+}
+
+
+/* =========================================================
+   Mobile Navbar
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+
+  .navbar-collapse {
+    display: block !important;
+
+    position: absolute;
+
+    top: 64px;
+    left: 12px;
+    right: 12px;
+
+    padding: 15px;
+
+    background-color: var(--primary-hover);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-md);
+
+    /* Closed */
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateY(-15px);
+
+    pointer-events: none;
+
+    transition:
+      opacity var(--transition-normal),
+      transform var(--transition-normal),
+      visibility var(--transition-normal);
   }
+
+
+  /* Open */
+
+  .navbar-collapse.show {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateY(0);
+
+    pointer-events: auto;
+  }
+
+
+  /* Navigation */
+
+  .navbar-nav {
+    align-items: stretch !important;
+
+    gap: 4px !important;
+  }
+
+
+  .navbar .nav-link {
+    padding: 10px 12px;
+
+    text-align: center;
+
+    transform: translateY(-5px);
+
+    opacity: 0;
+
+    transition:
+      opacity var(--transition-normal),
+      transform var(--transition-normal),
+      background-color var(--transition-normal);
+  }
+
+
+  /* Links animation */
+
+  .navbar-collapse.show .nav-link {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+
+
+  .navbar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+
+    border-radius: var(--radius-md);
+
+    transform: translateY(0);
+  }
+
+
+  /* Remove active underline on mobile */
+
+  .navbar .nav-link.active::after {
+    display: none;
+  }
+
+
+  /* Buttons */
+
+  .btn-navbar {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 8px;
+
+    text-align: center;
+
+    transform: translateY(-5px);
+
+    opacity: 0;
+
+    transition:
+      opacity var(--transition-normal),
+      transform var(--transition-normal),
+      background-color var(--transition-normal);
+  }
+
+
+  .navbar-collapse.show .btn-navbar {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+

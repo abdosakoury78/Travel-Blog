@@ -1,59 +1,513 @@
-<section class="backgroundBlog">
-    <h1 style="z-index: 10; font-style: italic; font-size: 55px;">Contact</h1>
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+
+<section class="contact-hero">
+
+  <div class="contact-hero-overlay"></div>
+
+  <div class="container position-relative z-1 text-center">
+
+    <h1 class="display-3 fw-bold text-white mt-3 mb-3">
+      Contact Us
+    </h1>
+
+    <p class="lead text-white-50 mx-auto">
+      Have a question, suggestion, or just want to say hello?
+      We'd love to hear from you.
+    </p>
+
+  </div>
+
 </section>
 
 
-<!-- Contact Form -->
-<section class="contactForm">
-    <h1 class="mb-5">Get In Touch With Us: </h1>
-    <div class="container row">
-      <div class="contacts col-12 col-md-6">
-        <div>
-          <h5>Address</h5>
-          <p>13 Fifth Avenue, Cairo, Egypt</p>
-        </div>
-        <div>
-          <h5>Phone</h5>
-          <p>+20 111 234 5678</p>
-        </div>
-        <div>
-          <h5>Email</h5>
-          <p>contact&#64;travelblog.com</p>
-        </div>
-        <div>
-          <h5>Social Media</h5>
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-instagram"></i>
-          <i class="fa-brands fa-twitter"></i>
-          <i class="fa-brands fa-youtube"></i>
-        </div>
-      </div>
-      <div class="form col-12 col-md-6">
-        <form (submit)="getForm($event, message)" action="" class="row" [style.display]="isSubmit ? 'none' : 'block'">
-          <input required class="col-12 p-2" type="text" placeholder="Name" name="Name" #nameInput>
-          <input required class="col-12 p-2" type="email" name="Email" placeholder="Email" #emailInput>
-          <textarea required class="col-12 p-2" name="Message" placeholder="Message" #messageInput></textarea>
-          <button class="btn btn-primary col-4 col-md-2">Submit</button>
-        </form>
-        <div class="sentMes" [style.display]="isSubmit ? 'block' : 'none'">
-          <p>The message has been sent. We will contact you soon.</p>
-          <div class="message" #message>
-            <p><span>Name:</span> {{this.formData?.get("Name")}}</p>
-            <p><span>Email:</span> {{this.formData?.get("Email")}}</p>
-            <p><span>Message:</span> {{this.formData?.get("Message")}}</p>
-            <p class = "link" (click)="resetForm(nameInput, emailInput, messageInput)">Write another Message</p>
+<!-- =========================================================
+     CONTACT
+     ========================================================= -->
+
+<section class="contact-section py-5">
+
+  <div class="container py-lg-4">
+
+    <div class="row g-5">
+
+
+      <!-- =====================================================
+           CONTACT INFORMATION
+           ===================================================== -->
+
+      <div class="col-12 col-lg-5">
+
+        <span class="section-label">
+          Get in touch
+        </span>
+
+        <h2 class="display-6 fw-bold mt-2 mb-3">
+          We'd love to
+          <span class="text-primary">hear from you.</span>
+        </h2>
+
+        <p class="text-secondary mb-4">
+          Whether you have a question about our stories,
+          want to share your travel experience, or simply
+          want to say hello, feel free to reach out.
+        </p>
+
+
+        <!-- Address -->
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            <i class="fa-solid fa-location-dot"></i>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-        <!-- section anything -->
-<section class="enjoy">
-    <div class="container">
-        <h2>Enjoy a world of unforgettable travel experiences and captivating stories on our blog, where every adventure awaits!</h2>
-        <button class="btn btn-primary" style="font-size: 25px; padding: 5px 20px;">Explore</button>
+          <div>
+
+            <h5>Address</h5>
+
+            <p>
+              Cairo, Egypt
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Phone -->
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+
+          <div>
+
+            <h5>Phone</h5>
+
+            <p>
+              +20 111 234 5678
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Email -->
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+
+          <div>
+
+            <h5>Email</h5>
+
+            <p>
+              contact&#64;travelblog.com
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Social Media -->
+
+        <div class="mt-4">
+
+          <h5 class="fw-semibold mb-3">
+            Follow us
+          </h5>
+
+          <div class="d-flex gap-2">
+
+            <a
+              href="#"
+              class="social-icon"
+              aria-label="Facebook"
+            >
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a
+              href="#"
+              class="social-icon"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+
+            <a
+              href="#"
+              class="social-icon"
+              aria-label="Twitter"
+            >
+              <i class="fa-brands fa-x-twitter"></i>
+            </a>
+
+            <a
+              href="#"
+              class="social-icon"
+              aria-label="YouTube"
+            >
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           FORM
+           ===================================================== -->
+
+      <div class="col-12 col-lg-7">
+
+        <div class="contact-card p-4 p-md-5">
+
+          @if (!isSubmit) {
+
+            <h3 class="h4 fw-bold mb-2">
+              Send us a message
+            </h3>
+
+            <p class="text-secondary mb-4">
+              Fill out the form below and we'll get back to you soon.
+            </p>
+
+
+            <form
+              [formGroup]="contactForm"
+              (ngSubmit)="onSubmit()"
+              novalidate
+            >
+
+
+              <!-- =================================================
+                   NAME
+                   ================================================= -->
+
+              <div class="mb-4">
+
+                <label
+                  for="name"
+                  class="form-label fw-semibold"
+                >
+                  Name
+                </label>
+
+                <input
+                  id="name"
+                  type="text"
+                  class="form-control"
+                  formControlName="name"
+                  placeholder="Enter your name"
+                  [class.is-invalid]="name.invalid && name.touched"
+                  [class.is-valid]="name.valid && name.touched"
+                >
+
+
+                @if (name.invalid && name.touched) {
+
+                  <div class="invalid-feedback">
+
+                    @if (name.hasError('required')) {
+
+                      Name is required.
+
+                    }
+
+                    @else if (name.hasError('minlength')) {
+
+                      Name must be at least 3 characters.
+
+                    }
+
+                    @else if (name.hasError('maxlength')) {
+
+                      Name cannot exceed 50 characters.
+
+                    }
+
+                  </div>
+
+                }
+
+              </div>
+
+
+              <!-- =================================================
+                   EMAIL
+                   ================================================= -->
+
+              <div class="mb-4">
+
+                <label
+                  for="email"
+                  class="form-label fw-semibold"
+                >
+                  Email
+                </label>
+
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="Enter your email"
+                  [class.is-invalid]="email.invalid && email.touched"
+                  [class.is-valid]="email.valid && email.touched"
+                >
+
+
+                @if (email.invalid && email.touched) {
+
+                  <div class="invalid-feedback">
+
+                    @if (email.hasError('required')) {
+
+                      Email is required.
+
+                    }
+
+                    @else if (email.hasError('email')) {
+
+                      Please enter a valid email address.
+
+                    }
+
+                  </div>
+
+                }
+
+              </div>
+
+
+              <!-- =================================================
+                   MESSAGE
+                   ================================================= -->
+
+              <div class="mb-4">
+
+                <label
+                  for="message"
+                  class="form-label fw-semibold"
+                >
+                  Message
+                </label>
+
+                <textarea
+                  id="message"
+                  class="form-control"
+                  formControlName="message"
+                  placeholder="Write your message..."
+                  rows="6"
+                  [class.is-invalid]="message.invalid && message.touched"
+                  [class.is-valid]="message.valid && message.touched"
+                ></textarea>
+
+
+                @if (message.invalid && message.touched) {
+
+                  <div class="invalid-feedback">
+
+                    @if (message.hasError('required')) {
+
+                      Message is required.
+
+                    }
+
+                    @else if (message.hasError('minlength')) {
+
+                      Message must be at least 10 characters.
+
+                    }
+
+                    @else if (message.hasError('maxlength')) {
+
+                      Message cannot exceed 500 characters.
+
+                    }
+
+                  </div>
+
+                }
+
+
+                @if (message.value.length > 0) {
+
+                  <div class="form-text text-end">
+
+                    {{ message.value.length }}/500
+
+                  </div>
+
+                }
+
+              </div>
+
+
+              <!-- =================================================
+                   SUBMIT
+                   ================================================= -->
+
+              <button
+                type="submit"
+                class="btn btn-primary px-4"
+              >
+
+                Send Message
+
+                <i class="fa-solid fa-paper-plane ms-2"></i>
+
+              </button>
+
+            </form>
+
+          }
+
+
+          <!-- =====================================================
+               SUCCESS
+               ===================================================== -->
+
+          @if (isSubmit) {
+
+            <div class="success-message text-center">
+
+              <div class="success-icon">
+
+                <i class="fa-solid fa-check"></i>
+
+              </div>
+
+
+              <h3 class="h4 fw-bold mt-4">
+                Message Sent!
+              </h3>
+
+              <p class="text-secondary">
+                Thank you for reaching out.
+                We'll contact you soon.
+              </p>
+
+
+              <div class="message-preview text-start mt-4">
+
+                <div class="mb-3">
+
+                  <span>Name</span>
+
+                  <p>
+                    {{ name.value }}
+                  </p>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                  <span>Email</span>
+
+                  <p>
+                    {{ email.value }}
+                  </p>
+
+                </div>
+
+
+                <div>
+
+                  <span>Message</span>
+
+                  <p>
+                    {{ message.value }}
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="btn btn-outline-primary mt-3"
+                (click)="writeAnotherMessage()"
+              >
+
+                <i class="fa-solid fa-pen me-2"></i>
+
+                Write another message
+
+              </button>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
     </div>
+
+  </div>
+
 </section>
 
-<app-footer></app-footer>
+
+<!-- =========================================================
+     CTA
+     ========================================================= -->
+
+<section class="contact-cta">
+
+  <div class="contact-cta-overlay"></div>
+
+  <div class="container position-relative z-1 py-5">
+
+    <div class="row justify-content-center text-center">
+
+      <div class="col-12 col-lg-8">
+
+        <span class="hero-badge">
+          Start your journey
+        </span>
+
+        <h2 class="display-6 fw-bold text-white mt-3">
+          Ready for your next adventure?
+        </h2>
+
+        <p class="lead text-white-50 mb-4">
+          Explore our stories and discover your next
+          unforgettable destination.
+        </p>
+
+        <a
+          routerLink="/blog"
+          class="btn btn-primary btn-lg px-4"
+        >
+
+          Explore the Blog
+
+          <i class="fa-solid fa-arrow-right ms-2"></i>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

@@ -4,23 +4,34 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginService {
+
   private isLoggedIn = false;
-  isProfile = false;
+  private profileVisible = false;
 
-  login() {
+
+  login(): void {
     this.isLoggedIn = true;
+    this.profileVisible = true;
   }
 
-  loginBtn() {
+
+  loginBtn(): void {
     this.isLoggedIn = false;
+    this.profileVisible = false;
   }
 
-  logout() {
+
+  logout(): void {
     this.isLoggedIn = false;
-    this.isProfile = false;
+    this.profileVisible = false;
   }
 
-  getLoginStatus() {
+  getLoginStatus(): boolean {
     return this.isLoggedIn;
   }
+
+  get isProfile(): boolean {
+    return this.profileVisible;
+  }
 }
+
