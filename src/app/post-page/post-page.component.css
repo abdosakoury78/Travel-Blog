@@ -1,176 +1,222 @@
-.backgroundBlog {
-    height: 50vh;
-    background-image: url("../../assets/images/enjoy2.png");
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
+/* =========================================================
+   Hero
+   ========================================================= */
+
+.post-hero {
+  min-height: 50vh;
+  background-image: url("../../assets/images/enjoy2.png");
+  background-position: center;
+  background-size: cover;
+  position: relative;
 }
 
-.backgroundBlog::after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.55);
-    position: absolute;
-    top: 0;
+.post-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-dark);
 }
 
 
-/* post section */
+/* =========================================================
+   Article
+   ========================================================= */
 
-.post {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding: 80px 0;
+.post-page {
+  background-color: var(--bg-secondary);
 }
 
-.container .info h2 {
-    text-transform: uppercase;
-    font-size: 40px;
-    margin: 40px 0;
+.article-card {
+  border-radius: var(--radius-xl);
 }
 
-.container .info p {
-    color: #777777;
+.article-image {
+  min-height: 100%;
+  object-fit: cover;
+  max-height: 650px;
 }
 
-.icons {
-    display: flex;
+.article-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.heart {
-    display: flex;
-    margin-right: 60px;
-    justify-content: center;
+.article-content h2 {
+  color: var(--text-primary);
 }
- i {
-    font-size: 30px;
-    color: #777777;
-    transition: 0.3s;
-}
-/* 007BFF */
 
- i:hover {
-    color: #007BFF;
-    cursor: pointer;
+.article-content p {
+  line-height: 1.8;
 }
 
 
-/* comments */
-.comments,
-.makeComment {
-    align-self: flex-start;
-    margin: 40px auto;
+/* =========================================================
+   Actions
+   ========================================================= */
+
+.action-button {
+  border: 0;
+  background: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 5px;
+
+  color: var(--text-secondary);
+
+  font-size: 18px;
+
+  transition:
+    color var(--transition-normal),
+    transform var(--transition-fast);
 }
 
-.comments h2,
-.makeComment h2 {
-    border-bottom: solid 1px #dfdede;
-    padding: 10px;
-    text-transform: uppercase;
-    margin-bottom: 40px;
+.action-button:hover {
+  color: var(--primary-color);
+  transform: translateY(-2px);
 }
 
-.comments .person img {
-    width: 82px;
-    height: 60px;
-    border-radius: 50%;
+.action-button.liked {
+  color: var(--primary-color);
 }
 
-
-.profile-info {
-    color: #777777;
-}
-
-.person {
-    border-bottom: solid 1px #efeeee;
-    margin: 30px 0;
-}
-
-.name {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 50px;
-}
-
-
-.name .name-icon {
-    display: flex;
-    gap: 10px;
-}
-
-.name-icon i {
-    font-size: 25px;
-    color: #777777;
-}
-
-.name-icon p {
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.name-icon p:hover {
-    color: #007BFF;
-}
-
-/* make a comment */
-.make {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    align-items: flex-start;
-}
-
-.make textarea {
-    /* align-self: baseline; */
-    width: 80%;
-    padding: 10px;
-    height: 150px;
-}
-
-.make textarea:focus,
-.replyForm input:focus {
-    border: none;
-    outline: #007BFF 2px solid;
-}
-
-.replyForm {
-    margin-left: 60px;
-    display: flex;
-}
-
-.replyForm input {
-    padding: 10px;
-    width: 30%;
-    margin: 0 30px;
-}
-
-@media only screen and (max-width: 600px) {
-    .replyForm input {
-        width: 50%;
-    }
+.action-button i {
+  font-size: 22px;
 }
 
 
-/* replies  */
+/* =========================================================
+   Section Heading
+   ========================================================= */
+
+.section-heading {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+}
+
+
+/* =========================================================
+   Comments
+   ========================================================= */
+
+.comment-card {
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.comment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+.comment-avatar {
+  width: 60px;
+  height: 60px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+.reply-avatar {
+  width: 42px;
+  height: 42px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+.reply-button {
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal),
+    transform var(--transition-fast);
+}
+
+.reply-button:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   Replies
+   ========================================================= */
+
 .replies {
-    display: flex;
-    gap: 20px;
-    border-bottom: solid 1px #efeeee;
-    padding-bottom: 20px;
-    margin: 0 80px;
+  border-left: 3px solid var(--primary-color);
+  padding-left: 20px;
 }
 
-.replies img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+.reply-item {
+  padding: 15px 0;
+}
+
+.reply-item + .reply-item {
+  border-top: 1px solid var(--border-light);
+}
+
+
+/* =========================================================
+   Add Comment
+   ========================================================= */
+
+.add-comment {
+  border-radius: var(--radius-xl);
+}
+
+.add-comment textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+  .article-image {
+    min-height: 350px;
+    max-height: 450px;
+  }
+
+}
+
+
+@media (max-width: 575.98px) {
+
+  .post-hero {
+    min-height: 40vh;
+  }
+
+  .article-image {
+    min-height: 280px;
+  }
+
+  .article-content {
+    padding: 25px !important;
+  }
+
+  .comment-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .reply-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .replies {
+    padding-left: 12px;
+  }
+
 }

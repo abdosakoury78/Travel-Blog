@@ -1,75 +1,350 @@
-<section class="backgroundBlog">
-    <h1 style="z-index: 10; font-style: italic; font-size: 55px;">Post</h1>
+<!-- Hero -->
+<section
+  class="post-hero d-flex align-items-center justify-content-center text-center"
+>
+  <div class="container position-relative z-2">
+    <h1 class="display-3 fw-bold text-white fst-italic">
+      Post
+    </h1>
+  </div>
 </section>
 
-<!-- Post section -->
-<section class="post">
-    <div class="container row">
-        <img class="col-md-6" [src]="post?.image" [alt]="post?.title">
-        <div class="info col-md-6">
-            <h2>{{post?.title}}</h2>
-            <p>{{post?.description}}</p>
-            <p>{{post?.content}}</p>
-            <p>Author: {{post?.author}}</p>
-            <p>Date: {{post?.date}}</p>
-            <div class="icons mt-5">
-                <div class="heart">
-                    <i class="me-2 fa-regular fa-heart " [class.fa-solid] = "isClicked" [style.color] = "isClicked ? '#007BFF' : '#777777'" (click)="addLike()"></i>
-                    <p>{{number}}</p>
+
+<!-- Post -->
+<section class="post-page py-5">
+
+  <div class="container">
+
+    @if (post) {
+
+      <!-- Article -->
+      <article class="article-card card border-0 shadow-lg overflow-hidden">
+
+        <div class="row g-0">
+
+          <!-- Image -->
+          <div class="col-lg-6">
+            <img
+              [src]="post.image"
+              [alt]="post.title"
+              class="article-image w-100 h-100"
+            />
+          </div>
+
+          <!-- Content -->
+          <div class="col-lg-6">
+
+            <div class="article-content p-4 p-lg-5">
+                
+              <h2 class="display-6 fw-bold mb-4">
+                {{ post.title }}
+              </h2>
+
+              <p class="lead text-secondary">
+                {{ post.description }}
+              </p>
+
+              <p class="text-secondary">
+                {{ post.content }}
+              </p>
+
+              <div class="article-meta mt-4 pt-4 border-top">
+
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="fa-regular fa-user text-primary"></i>
+                  <span>
+                    <strong>Author:</strong>
+                    {{ post.author }}
+                  </span>
                 </div>
-                <i class="fa-regular fa-comment " (click)="goToComment()"></i>
+
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fa-regular fa-calendar text-primary"></i>
+                  <span>
+                    <strong>Date:</strong>
+                    {{ post.date }}
+                  </span>
+                </div>
+
+              </div>
+
+
+              <!-- Actions -->
+              <div
+                class="article-actions d-flex align-items-center gap-4 mt-4 pt-4 border-top"
+              >
+
+                <!-- Like -->
+                <button
+                  type="button"
+                  class="action-button"
+                  [class.liked]="isClicked"
+                  (click)="addLike()"
+                  aria-label="Like this post"
+                >
+                  <i
+                    class="fa-heart"
+                    [class.fa-regular]="!isClicked"
+                    [class.fa-solid]="isClicked"
+                  ></i>
+
+                  <span>{{ number }}</span>
+                </button>
+
+
+                <!-- Comments -->
+                <button
+                  type="button"
+                  class="action-button"
+                  (click)="goToComment()"
+                  aria-label="View comments"
+                >
+                  <i class="fa-regular fa-comment"></i>
+                  <span>{{ comments.length }}</span>
+                </button>
+
+              </div>
+
             </div>
+
+          </div>
+
         </div>
-    </div>
 
-    <!-- comments -->
+      </article>
 
-    <div class="comments container">
-        <h2>comments{{'{ ' + comment + ' }'}}</h2>
-        @for (person of comments; track $index) {
-            <div class="person row">
-                <img class="col-md-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profile">
-                <div class="profile-info col-md-8">
-                    <div class="comment">
-                        <div class="name">
-                            <p>{{person.name}}</p>
-                            <div class="name-icon">
-                                <i class="fa-solid fa-comment " (click)="showReplyText(person.id)"></i>
-                                <p (click)="showReplyText(person.id)">REBLY</p>
-                            </div>
-                        </div>
-                        <p>{{person.comment}}</p>
+    }
+
+
+    <!-- Comments -->
+    <section
+      #commentsSection
+      class="comments-section mt-5"
+    >
+
+      <div class="section-heading mb-4">
+
+        <span class="text-primary fw-semibold">
+          Community
+        </span>
+
+        <h2 class="fw-bold mt-1">
+          Comments
+          <span class="text-secondary">
+            ({{ comments.length }})
+          </span>
+        </h2>
+
+      </div>
+
+
+      <!-- Comments list -->
+      <div class="comments-list">
+
+        @for (person of comments; track person.id) {
+
+          <div class="comment-card card border-0 shadow-sm mb-4">
+
+            <div class="card-body p-4">
+
+              <div class="d-flex gap-3">
+
+                <!-- Avatar -->
+                <img
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                  [alt]="person.name"
+                  class="comment-avatar flex-shrink-0"
+                />
+
+                <!-- Comment -->
+                <div class="flex-grow-1">
+
+                  <div
+                    class="d-flex flex-wrap justify-content-between align-items-center gap-2"
+                  >
+
+                    <div>
+                      <h6 class="fw-bold mb-1">
+                        {{ person.name }}
+                      </h6>
+
+                      <small class="text-muted">
+                        Traveler
+                      </small>
                     </div>
+
+                    <button
+                      type="button"
+                      class="reply-button btn btn-sm btn-outline-primary"
+                      (click)="showReplyText(person.id)"
+                    >
+                      <i class="fa-regular fa-comment me-1"></i>
+                      Reply
+                    </button>
+
+                  </div>
+
+
+                  <p class="text-secondary mt-3 mb-0">
+                    {{ person.comment }}
+                  </p>
+
+
+                  <!-- Reply form -->
+                  @if (person.replyVisible) {
+
+                    <form
+                      class="reply-form mt-4"
+                      [formGroup]="replyForms[person.id]"
+                      (ngSubmit)="makeReply(person.id)"
+                    >
+
+                      <div class="input-group">
+
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="reply"
+                          placeholder="Write a reply..."
+                        />
+
+                        <button
+                          type="submit"
+                          class="btn btn-primary"
+                          [disabled]="replyForms[person.id].invalid"
+                        >
+                          Reply
+                        </button>
+
+                      </div>
+
+                      @if (
+                        replyForms[person.id].controls.reply.invalid &&
+                        replyForms[person.id].controls.reply.touched
+                      ) {
+                        <small class="text-danger d-block mt-2">
+                          Reply must contain at least 2 characters.
+                        </small>
+                      }
+
+                    </form>
+
+                  }
+
+
+                  <!-- Replies -->
+                  @if (person.replies.length > 0) {
+
+                    <div class="replies mt-4">
+
+                      @for (reply of person.replies; track $index) {
+
+                        <div class="reply-item d-flex gap-3">
+
+                          <img
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                            alt="Profile"
+                            class="reply-avatar"
+                          />
+
+                          <div>
+
+                            <h6 class="fw-semibold mb-1">
+                              {{ person.replyNames[$index] || 'Unknown' }}
+                            </h6>
+
+                            <p class="text-secondary mb-0">
+                              <span class="text-primary fw-semibold">
+                                &#64;{{ person.name }}
+                              </span>
+
+                              {{ reply }}
+                            </p>
+
+                          </div>
+
+                        </div>
+
+                      }
+
+                    </div>
+
+                  }
+
                 </div>
-            </div>
-            <div class="replyForm" [style.display] = "person.replyVisible? 'block' : 'none'">
-                <input #replyText placeholder="Write a reply" type="text" name="" id="">
-                <button class="btn btn-primary" (click)="makeReply(person.id, replyText)">Reply</button>
+
+              </div>
+
             </div>
 
-            @if (person.replies.length > 0) {
-                @for (item of person.replies; track $index) {
-                    <div class="replies mb-5">
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profile">
-                        <div class="profile-info">
-                            <p>{{name || "Unknown"}}</p>
-                            <p><span style="color: #007BFF;">&#64;{{person.name}}</span> {{item}}</p>
-                        </div>
-                    </div>
-                }
-            }
+          </div>
+
         }
-    </div>
 
-    <!-- make a comment -->
+      </div>
 
-    <div class="makeComment container">
-        <h2>Make a Comment</h2>
-        <div class="make">
-            <textarea #commentInput name="comment" id="" placeholder="comment"></textarea>
-            <a class="btn btn-primary" (click)="addComment(commentInput)">Send a Comment</a>
+
+      <!-- Add comment -->
+      <div class="add-comment card border-0 shadow-sm mt-5">
+
+        <div class="card-body p-4 p-lg-5">
+
+          <div class="mb-4">
+
+            <span class="text-primary fw-semibold">
+              Join the conversation
+            </span>
+
+            <h3 class="fw-bold mt-1">
+              Leave a Comment
+            </h3>
+
+          </div>
+
+
+          <form
+            [formGroup]="commentForm"
+            (ngSubmit)="addComment()"
+          >
+
+            <div class="mb-3">
+
+              <textarea
+                class="form-control"
+                formControlName="comment"
+                rows="5"
+                placeholder="Share your thoughts about this post..."
+              ></textarea>
+
+              @if (
+                commentForm.controls.comment.invalid &&
+                commentForm.controls.comment.touched
+              ) {
+                <div class="text-danger small mt-2">
+                  Comment must contain at least 3 characters.
+                </div>
+              }
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="commentForm.invalid"
+            >
+              <i class="fa-regular fa-paper-plane me-2"></i>
+              Send Comment
+            </button>
+
+          </form>
+
         </div>
-    </div>
-</section>
 
-<app-footer></app-footer>
+      </div>
+
+    </section>
+
+  </div>
+
+</section>

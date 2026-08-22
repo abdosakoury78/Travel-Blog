@@ -38,9 +38,6 @@ export class NavbarComponent {
     this.closeMenu();
   }
 
-  isProfile() {
-    return this.loginService.isProfile;
-  }
 
   logout(): void {
     this.loginService.logout();
