@@ -1,107 +1,209 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+.auth-section {
+  min-height: 100vh;
 
-  section {
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  .container {
-    perspective: 1000px;
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  padding: 30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary-light),
+      var(--bg-secondary)
+    );
+}
+
+
+.auth-container {
+  perspective: 1000px;
+}
+
+
+.form-container {
+  width: 360px;
+  min-height: 480px;
+
+  position: relative;
+
+  transform-style: preserve-3d;
+
+  transition: transform var(--transition-slow);
+
+  display: flex;
+  justify-content: center;
+}
+
+
+.form-box {
+  width: 100%;
+
+  position: absolute;
+
+  padding: 40px;
+
+  background-color: var(--bg-primary);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-lg);
+
+  backface-visibility: hidden;
+}
+
+
+.login-box {
+  transform: rotateY(0deg);
+}
+
+
+.signup-box {
+  transform: rotateY(180deg);
+}
+
+
+.auth-container.flipped .form-container {
+  transform: rotateY(180deg);
+}
+
+
+.form-box h2 {
+  margin-bottom: 25px;
+
+  text-align: center;
+
+  color: var(--primary-color);
+
+  font-weight: 700;
+}
+
+
+.input-box {
+  margin-bottom: 20px;
+}
+
+
+.input-box input {
+  margin: 0;
+
+  width: 100%;
+}
+
+
+.input-box input.is-invalid {
+  border-color: var(--danger-color);
+}
+
+
+.input-box input.is-invalid:focus {
+  border-color: var(--danger-color);
+
+  box-shadow:
+    0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+input::placeholder {
+  color: gray;
+}
+.error {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 13px;
+
+  color: var(--danger-color);
+
+  text-align: left;
+}
+
+
+.errorMessage {
+  margin-bottom: 15px;
+
+  padding: 10px;
+
+  border-radius: var(--radius-md);
+
+  background-color: #fff1f1;
+
+  color: var(--danger-color);
+
+  font-size: 14px;
+}
+
+
+.btn {
+  width: 100%;
+
+  padding: 11px 20px;
+
+  border: none;
+  border-radius: var(--radius-md);
+
+  background-color: var(--primary-color);
+
+  color: var(--text-white);
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-normal),
+    transform var(--transition-fast),
+    box-shadow var(--transition-normal);
+}
+
+
+.btn:hover {
+  background-color: var(--primary-hover);
+
+  box-shadow: var(--shadow-sm);
+}
+
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+
+.flip-link {
+  margin-top: 20px;
+
+  text-align: center;
+
+  color: var(--text-secondary);
+}
+
+
+.flip-link a {
+  color: var(--primary-color);
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.flip-link a:hover {
+  color: var(--secondary-color);
+}
+
+
+@media (max-width: 576px) {
+
+  .auth-section {
+    padding: 20px;
   }
 
   .form-container {
-    width: 350px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    max-width: 350px;
   }
 
   .form-box {
-    position: absolute;
-    background: white;
-    padding: 40px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    backface-visibility: hidden;
-    border-radius: 10px;
+    padding: 30px 25px;
   }
-
-  .login-box {
-    transform: rotateY(0deg);
-  }
-
-  .signup-box {
-    transform: rotateY(180deg);
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  .btn:hover {
-    background-color: #007bffc4;
-  }
-
-  .flip-link {
-    margin-top: 15px;
-    text-align: center;
-  }
-
-  .flip-link a {
-    color: #007bff;
-    text-decoration: none;
-  }
-
-  .flip-link a:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  .container.flipped .form-container {
-    transform: rotateY(180deg);
-  }
-
-  .errorMessage {
-    color: red;
-  }
+}

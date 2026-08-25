@@ -7,16 +7,9 @@ export class LoginService {
 
   private isLoggedIn = false;
 
-
   login(): void {
     this.isLoggedIn = true;
   }
-
-
-  loginBtn(): void {
-    this.isLoggedIn = false;
-  }
-
 
   logout(): void {
     this.isLoggedIn = false;
@@ -25,6 +18,4 @@ export class LoginService {
   getLoginStatus(): boolean {
     return this.isLoggedIn;
   }
-
 }
-

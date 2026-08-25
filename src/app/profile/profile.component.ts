@@ -1,155 +1,386 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+
 import { LoginService } from '../login.service';
-import { FooterComponent } from '../footer/footer.component';
+
+
+interface UserPost {
+  title: string;
+  description: string;
+  details: string;
+  image: string | null;
+  date: string;
+}
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  posts: UserPost[];
+}
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FooterComponent],
+  imports: [
+    ReactiveFormsModule
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
+
+  private fb = inject(FormBuilder);
   loginService = inject(LoginService);
+
+
+  // =========================
+  // Component State
+  // =========================
+
   isClicked = false;
   isError = false;
-  errorMes : any;
-  formData : any;
+  isSaved = false;
+
+  errorMes = '';
   number = 0;
 
-  user = JSON.parse(localStorage.getItem("user") || "{}");
-  users = JSON.parse(localStorage.getItem("users") || "[]");
+  selectedImage: File | null = null;
 
 
-  addLike() {
-    if(this.isClicked) {
-      this.number--;
-    } else {
-      this.number++;
-    }
-    this.isClicked = !this.isClicked;
+  // =========================
+  // Local Storage
+  // =========================
+
+  user: User = JSON.parse(
+    localStorage.getItem('user') || '{}'
+  );
+
+  users: User[] = JSON.parse(
+    localStorage.getItem('users') || '[]'
+  );
+
+
+  // =========================
+  // Profile Form
+  // =========================
+
+  profileForm = this.fb.nonNullable.group({
+
+    username: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3)
+      ]
+    ],
+
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    ],
+
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ]
+
+  });
+
+
+  // =========================
+  // Create Post Form
+  // =========================
+
+  postForm = this.fb.nonNullable.group({
+
+    title: [
+      '',
+      Validators.required
+    ],
+
+    description: [
+      '',
+      Validators.required
+    ],
+
+    details: [
+      '',
+      Validators.required
+    ]
+
+  });
+
+
+  constructor() {
+
+    this.profileForm.setValue({
+      username: this.user.username || '',
+      password: this.user.password || '',
+      email: this.user.email || ''
+    });
+
   }
 
-  // save button function
-  saveChanges(username : any, password : any, email : any) {
-    let user = this.user.username;
-    let pass = this.user.password;
 
-    this.user.username = username.value;
-    this.user.password = password.value;
-    this.user.email = email.value;
+  // =========================
+  // Save Profile
+  // =========================
 
-    if(user === this.user.username && pass === this.user.password) {
-      this.isError = false;
-      this.errorMes = '';
+  saveChanges(): void {
+
+    this.isError = false;
+    this.isSaved = false;
+    this.errorMes = '';
+
+    if (this.profileForm.invalid) {
+
+      this.profileForm.markAllAsTouched();
+
       return;
-    } else if(user !== this.user.username) {
-      for(let user of this.users) {
-        if(this.user.username === user.username) {
-          this.isError = true;
-          this.errorMes = "This username is already used.";
-          return;
-        }
-      }
-      const userIndex = this.users.findIndex((u: any) => u.id === this.user.id);
-      if (userIndex !== -1) {
-        this.users[userIndex] = this.user;
-      }
-
-      localStorage.setItem("user", JSON.stringify(this.user));
-      localStorage.setItem("users", JSON.stringify(this.users));
-
-
-      this.isError = false;
-      this.errorMes = '';
-    } else if(pass !== this.user.password) {
-      for(let user of this.users) {
-        if(this.user.password === user.password) {
-          this.isError = true;
-          this.errorMes = "This password is already used.";
-          return;
-        }
-      }
-      const userIndex = this.users.findIndex((u: any) => u.id === this.user.id);
-      if (userIndex !== -1) {
-        this.users[userIndex] = this.user;
-      }
-
-      localStorage.setItem("user", JSON.stringify(this.user));
-      localStorage.setItem("users", JSON.stringify(this.users));
-
-
-      this.isError = false;
-      this.errorMes = '';
     }
+
+
+    const {
+      username,
+      password,
+      email
+    } = this.profileForm.getRawValue();
+
+
+    // Check if username belongs to another user
+    const usernameExists = this.users.some(
+      user =>
+        user.username === username &&
+        user.id !== this.user.id
+    );
+
+    if (usernameExists) {
+
+      this.isError = true;
+      this.errorMes = 'This username is already used.';
+
+      return;
+    }
+
+
+    // Check if password belongs to another user
+    const passwordExists = this.users.some(
+      user =>
+        user.password === password &&
+        user.id !== this.user.id
+    );
+
+    if (passwordExists) {
+
+      this.isError = true;
+      this.errorMes = 'This password is already used.';
+
+      return;
+    }
+
+
+    // Update current user
+    this.user = {
+      ...this.user,
+      username,
+      password,
+      email
+    };
+
+
+    // Find user inside users array
+    const userIndex = this.users.findIndex(
+      user => user.id === this.user.id
+    );
+
+
+    if (userIndex !== -1) {
+      this.users[userIndex] = this.user;
+    }
+
+
+    // Update localStorage
+    localStorage.setItem(
+      'user',
+      JSON.stringify(this.user)
+    );
+
+    localStorage.setItem(
+      'users',
+      JSON.stringify(this.users)
+    );
+
+
+    this.isSaved = true;
+
   }
 
-  // create post function
-  createPost(event: any) {
-    event.preventDefault();
-    this.formData = new FormData(event.target);
 
-    let today = new Date();
-    let todayFormat = today.toISOString().split('T')[0];
+  // =========================
+  // Select Image
+  // =========================
 
-    const imageFile = this.formData.get('image') as File;
+  onImageSelected(event: Event): void {
 
-    if (imageFile && imageFile.size > 0) {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+
+      this.selectedImage = input.files[0];
+
+    } else {
+
+      this.selectedImage = null;
+
+    }
+
+  }
+
+
+  // =========================
+  // Create Post
+  // =========================
+
+  createPost(): void {
+
+    if (this.postForm.invalid) {
+
+      this.postForm.markAllAsTouched();
+
+      return;
+    }
+
+
+    const {
+      title,
+      description,
+      details
+    } = this.postForm.getRawValue();
+
+
+    const today = new Date()
+      .toISOString()
+      .split('T')[0];
+
+
+    // If user selected an image
+    if (this.selectedImage) {
 
       const reader = new FileReader();
+
       reader.onload = () => {
-        const base64Image = reader.result as string;
 
+        const post: UserPost = {
 
-        let post = {
-          title: this.formData.get('title'),
-          description: this.formData.get('description'),
-          details: this.formData.get('details'),
-          image: base64Image,
-          date: todayFormat
+          title,
+          description,
+          details,
+
+          image: reader.result as string,
+
+          date: today
+
         };
 
 
-        this.user.posts.push(post);
+        this.savePost(post);
 
-
-        const userIndex = this.users.findIndex((u: any) => u.id === this.user.id);
-        if (userIndex !== -1) {
-          this.users[userIndex] = this.user;
-        }
-
-
-        localStorage.setItem("user", JSON.stringify(this.user));
-        localStorage.setItem("users", JSON.stringify(this.users));
-
-
-        event.target.reset();
       };
-      reader.readAsDataURL(imageFile);
+
+
+      reader.readAsDataURL(this.selectedImage);
+
     } else {
 
-      let post = {
-        title: this.formData.get('title'),
-        description: this.formData.get('description'),
-        details: this.formData.get('details'),
+      const post: UserPost = {
+
+        title,
+        description,
+        details,
+
         image: null,
-        date: todayFormat
+
+        date: today
+
       };
 
 
-      this.user.posts.push(post);
+      this.savePost(post);
 
-
-      const userIndex = this.users.findIndex((u: any) => u.id === this.user.id);
-      if (userIndex !== -1) {
-        this.users[userIndex] = this.user;
-      }
-
-      localStorage.setItem("user", JSON.stringify(this.user));
-      localStorage.setItem("users", JSON.stringify(this.users));
-
-      event.target.reset();
     }
+
+  }
+
+
+  // =========================
+  // Save Post
+  // =========================
+
+  private savePost(post: UserPost): void {
+
+    this.user.posts.push(post);
+
+
+    const userIndex = this.users.findIndex(
+      user => user.id === this.user.id
+    );
+
+
+    if (userIndex !== -1) {
+
+      this.users[userIndex] = this.user;
+
+    }
+
+
+    localStorage.setItem(
+      'user',
+      JSON.stringify(this.user)
+    );
+
+    localStorage.setItem(
+      'users',
+      JSON.stringify(this.users)
+    );
+
+
+    // Reset form
+    this.postForm.reset();
+
+    this.selectedImage = null;
+
+  }
+
+
+  // =========================
+  // Like
+  // =========================
+
+  addLike(): void {
+
+    if (this.isClicked) {
+
+      this.number--;
+
+    } else {
+
+      this.number++;
+
+    }
+
+    this.isClicked = !this.isClicked;
 
   }
 

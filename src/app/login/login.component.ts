@@ -1,115 +1,217 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private loginService = inject(LoginService);
+
   isFlipped = false;
-  formData : any;
-  response : any;
-  errorMes : any;
+
+  errorMes = '';
   isError = false;
-  users = JSON.parse(localStorage.getItem('users') || '[]');
-  http = inject(HttpClient);
-  router = inject(Router);
-  loginService = inject(LoginService);
+
+  users: any[] = JSON.parse(
+    localStorage.getItem('users') || '[]'
+  );
+
+  // =========================
+  // Login Form
+  // =========================
+
+  loginForm = this.fb.nonNullable.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  });
 
 
-  flipToSignup() {
+  // =========================
+  // Signup Form
+  // =========================
+
+  signupForm = this.fb.nonNullable.group({
+    username: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3)
+      ]
+    ],
+
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    ]
+  });
+
+
+  // =========================
+  // Flip Forms
+  // =========================
+
+  flipToSignup(): void {
+    this.isError = false;
+    this.errorMes = '';
+
     this.isFlipped = true;
   }
 
+  flipToLogin(): void {
+    this.isError = false;
+    this.errorMes = '';
 
-  flipToLogin() {
     this.isFlipped = false;
   }
 
-  onSubmitLogin(event : any, username : any, password : any) {
-    // event.preventDefault();
-    // this.formData = new FormData(event.target);
-    // if(this.formData.get('username') !== "" && this.formData.get("password") !== "") {
-    //   for(let user of this.users) {
-    //     if(user.username === this.formData.get('username') && user.password === this.formData.get('password')) {
-    //       this.loginService.isProfile = true;
-    //       this.loginService.loginBtn();
-    //       localStorage.setItem("user", JSON.stringify(user));
-    //       this.router.navigate(['/home']);
-    //       username.value = "";
-    //       password.value = "";
-    //       break;
-    //     } else {
-    //       this.errorMes = "Wrong in username or password.";
-    //       this.isError = true;
-    //     }
-    //   }
-    // }
+
+  // =========================
+  // Login
+  // =========================
+
+  onSubmitLogin(): void {
+
+    // Stop if form is invalid
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const { username, password } = this.loginForm.getRawValue();
+
+    const user = this.users.find(
+      user =>
+        user.username === username &&
+        user.password === password
+    );
+
+    if (!user) {
+      this.isError = true;
+      this.errorMes = 'Wrong username or password.';
+      return;
+    }
+
+    // Login successful
+    this.isError = false;
+    this.errorMes = '';
+
+    this.loginService.login();
+
+    localStorage.setItem(
+      'user',
+      JSON.stringify(user)
+    );
+
+    this.loginForm.reset();
+
+    this.router.navigate(['/']);
   }
 
-  getLastId(): number {
-    const lastId = localStorage.getItem('lastId');
-    return lastId ? Number(lastId) : 1;
-  }
 
-  updateLastId(newId: number): void {
-    localStorage.setItem('lastId', newId.toString());
-  }
+  // =========================
+  // Signup
+  // =========================
+
+  onSubmitSignup(): void {
+
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched();
+      return;
+    }
+
+    const {
+      username,
+      email,
+      password
+    } = this.signupForm.getRawValue();
 
 
+    // Check username
+    const usernameExists = this.users.some(
+      user => user.username === username
+    );
 
-  onSubmitSignup(event : any, username : any, email : any, password : any) {
-    event.preventDefault();
-    this.formData = new FormData(event.target);
-    const newId = this.getLastId() + 1;
-    if(this.formData.get('username') !== "" && this.formData.get('email') !== "" && this.formData.get("password") !== "") {
-      for(let user of this.users) {
-        if(this.formData.get('username') === user.username) {
-          this.isError = true;
-          this.errorMes = "This username is already used.";
-          username.style.borderColor = 'red';
-          return;
-        }
-      }
-
-      for(let user of this.users) {
-        if(this.formData.get('password') === user.password) {
-          this.isError = true;
-          this.errorMes = "This password is already used.";
-          password.style.borderColor = 'red';
-          username.style.borderColor = "#ccc";
-          return;
-        }
-      }
-      const signupData = {
-        id: newId,
-        username: this.formData.get('username'),
-        email: this.formData.get('email'),
-        password: this.formData.get('password'),
-        posts: []
-      };
-      this.users.push(signupData);
-
-      localStorage.setItem('users', JSON.stringify(this.users));
-
-      this.updateLastId(newId);
-
-      username.value = "";
-      email.value = "";
-      password.value = "";
-
-      this.errorMes = "";
-      this.isError = false;
-      password.style.borderColor = "#ccc";
-      username.style.borderColor = "#ccc";
-
+    if (usernameExists) {
+      this.isError = true;
+      this.errorMes = 'This username is already used.';
+      return;
     }
 
 
+    // Create new user
+    const newUser = {
+      id: this.getLastId() + 1,
+      username,
+      email,
+      password,
+      posts: []
+    };
+
+
+    this.users.push(newUser);
+
+    localStorage.setItem(
+      'users',
+      JSON.stringify(this.users)
+    );
+
+    this.updateLastId(newUser.id);
+
+
+    // Reset form
+    this.signupForm.reset();
+
+    this.isError = false;
+    this.errorMes = '';
+
+    // Go back to login
+    this.isFlipped = false;
+  }
+
+
+  // =========================
+  // ID Management
+  // =========================
+
+  getLastId(): number {
+
+    const lastId = localStorage.getItem('lastId');
+
+    return lastId
+      ? Number(lastId)
+      : 0;
+  }
+
+
+  updateLastId(newId: number): void {
+
+    localStorage.setItem(
+      'lastId',
+      newId.toString()
+    );
   }
 }

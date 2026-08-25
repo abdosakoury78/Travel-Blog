@@ -1,40 +1,260 @@
-<section>
-    <div class="container" [class.flipped]="isFlipped">
-        <div class="form-container">
-          <!-- Login Form -->
-          <div class="form-box login-box">
-            <h2 class="mb-3">Login</h2>
-            <form (submit)="onSubmitLogin($event, userLog, passwordLog)">
-              <div class="input-box">
-                <input type="text" required placeholder="Username" name="username" autocomplete="off" #userLog>
-              </div>
-              <div class="input-box">
-                <input type="password" required placeholder="Password" name="password" #passwordLog>
-              </div>
-              <button type="submit" class="btn">Login</button>
-              <p class="flip-link">Don't have an account? <a (click)="flipToSignup()">Sign up</a></p>
-              <p class="errorMessage mt-3" [style.display] = "isError? 'block' : 'none'">{{errorMes}}</p>
-            </form>
+<section class="auth-section">
+
+  <div class="auth-container" [class.flipped]="isFlipped">
+
+    <div class="form-container">
+
+      <!-- =========================
+           LOGIN
+           ========================= -->
+
+      <div class="form-box login-box">
+
+        <h2>Login</h2>
+
+        <form
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmitLogin()"
+        >
+
+          <!-- Username -->
+
+          <div class="input-box">
+
+            <input
+              type="text"
+              placeholder="Username"
+              autocomplete="off"
+              formControlName="username"
+              [class.is-invalid]="
+                loginForm.controls.username.invalid &&
+                loginForm.controls.username.touched
+              "
+            >
+
+            @if (
+              loginForm.controls.username.invalid &&
+              loginForm.controls.username.touched
+            ) {
+              <small class="error">
+                Username is required.
+              </small>
+            }
+
           </div>
 
-          <!-- Sign Up Form -->
-          <div class="form-box signup-box">
-            <h2 class="mb-3">Sign Up</h2>
-            <form (submit)="onSubmitSignup($event, usernameSign, emailSign, passSign)">
-              <div class="input-box">
-                <input type="text" required placeholder="Username" name="username" autocomplete="off" #usernameSign>
-              </div>
-              <div class="input-box">
-                <input type="email" required placeholder="Email" name="email" autocomplete="off" #emailSign>
-              </div>
-              <div class="input-box">
-                <input type="password" required placeholder="Password" name="password" #passSign>
-              </div>
-              <button type="submit" class="btn">Sign Up</button>
-              <p class="flip-link">Already have an account? <a (click)="flipToLogin()">Login</a></p>
-              <p class="errorMessage mt-3" [style.display] = "isError? 'block' : 'none'">{{errorMes}}</p>
-            </form>
+
+          <!-- Password -->
+
+          <div class="input-box">
+
+            <input
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+              [class.is-invalid]="
+                loginForm.controls.password.invalid &&
+                loginForm.controls.password.touched
+              "
+            >
+
+            @if (
+              loginForm.controls.password.invalid &&
+              loginForm.controls.password.touched
+            ) {
+              <small class="error">
+                Password is required.
+              </small>
+            }
+
           </div>
-        </div>
+
+
+          <!-- Server / Login Error -->
+
+          @if (isError && !isFlipped) {
+            <p class="errorMessage">
+              {{ errorMes }}
+            </p>
+          }
+
+
+          <button
+            type="submit"
+            class="btn"
+          >
+            Login
+          </button>
+
+
+          <p class="flip-link">
+
+            Don't have an account?
+
+            <a (click)="flipToSignup()">
+              Sign up
+            </a>
+
+          </p>
+
+        </form>
+
       </div>
+
+
+      <!-- =========================
+           SIGN UP
+           ========================= -->
+
+      <div class="form-box signup-box">
+
+        <h2>Sign Up</h2>
+
+        <form
+          [formGroup]="signupForm"
+          (ngSubmit)="onSubmitSignup()"
+        >
+
+          <!-- Username -->
+
+          <div class="input-box">
+
+            <input
+              type="text"
+              placeholder="Username"
+              autocomplete="off"
+              formControlName="username"
+              [class.is-invalid]="
+                signupForm.controls.username.invalid &&
+                signupForm.controls.username.touched
+              "
+            >
+
+            @if (
+              signupForm.controls.username.hasError('required') &&
+              signupForm.controls.username.touched
+            ) {
+              <small class="error">
+                Username is required.
+              </small>
+            }
+
+            @if (
+              signupForm.controls.username.hasError('minlength') &&
+              signupForm.controls.username.touched
+            ) {
+              <small class="error">
+                Username must be at least 3 characters.
+              </small>
+            }
+
+          </div>
+
+
+          <!-- Email -->
+
+          <div class="input-box">
+
+            <input
+              type="email"
+              placeholder="Email"
+              autocomplete="off"
+              formControlName="email"
+              [class.is-invalid]="
+                signupForm.controls.email.invalid &&
+                signupForm.controls.email.touched
+              "
+            >
+
+            @if (
+              signupForm.controls.email.hasError('required') &&
+              signupForm.controls.email.touched
+            ) {
+              <small class="error">
+                Email is required.
+              </small>
+            }
+
+            @if (
+              signupForm.controls.email.hasError('email') &&
+              signupForm.controls.email.touched
+            ) {
+              <small class="error">
+                Please enter a valid email.
+              </small>
+            }
+
+          </div>
+
+
+          <!-- Password -->
+
+          <div class="input-box">
+
+            <input
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+              [class.is-invalid]="
+                signupForm.controls.password.invalid &&
+                signupForm.controls.password.touched
+              "
+            >
+
+            @if (
+              signupForm.controls.password.hasError('required') &&
+              signupForm.controls.password.touched
+            ) {
+              <small class="error">
+                Password is required.
+              </small>
+            }
+
+            @if (
+              signupForm.controls.password.hasError('minlength') &&
+              signupForm.controls.password.touched
+            ) {
+              <small class="error">
+                Password must be at least 6 characters.
+              </small>
+            }
+
+          </div>
+
+
+          <!-- Signup Error -->
+
+          @if (isError && isFlipped) {
+            <p class="errorMessage">
+              {{ errorMes }}
+            </p>
+          }
+
+
+          <button
+            type="submit"
+            class="btn"
+          >
+            Sign Up
+          </button>
+
+
+          <p class="flip-link">
+
+            Already have an account?
+
+            <a (click)="flipToLogin()">
+              Login
+            </a>
+
+          </p>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </section>

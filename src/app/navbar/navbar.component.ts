@@ -25,6 +25,9 @@ export class NavbarComponent {
   private readonly loginService = inject(LoginService);
 
 
+  loggedIn() : boolean {
+    return this.loginService.getLoginStatus();
+  }
   showLinks(): void {
     this.listClicked = !this.listClicked;
   }
@@ -34,7 +37,6 @@ export class NavbarComponent {
   }
 
   login(): void {
-    this.loginService.login();
     this.closeMenu();
   }
 

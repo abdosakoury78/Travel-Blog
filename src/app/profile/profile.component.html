@@ -1,102 +1,458 @@
-<!-- Profile section -->
-<section class="profile">
-    <div class="container row">
-        <!-- Profile Photo and Info -->
-        <div class="profilePhoto col-md-5">
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile Picture" id="displayImage">
-            <h3 class="h3User mt-3">{{user.username}}</h3>
-            <p class="pEmail">{{user.email}}</p>
+<!-- =========================
+     Profile Header
+     ========================= -->
+<section class="profile-section py-5">
+  <div class="container py-5">
+
+    <div class="row justify-content-center align-items-center g-5">
+
+      <!-- Profile Information -->
+      <div class="col-12 col-lg-5 text-center">
+
+        <div class="profile-card p-4">
+
+          <img
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+            alt="Profile Picture"
+            class="profile-image mb-3"
+          >
+
+          <h3 class="fw-bold mb-1">
+            {{ user.username }}
+          </h3>
+
+          <p class="text-secondary mb-0">
+            {{ user.email }}
+          </p>
+
         </div>
-        <!-- Profile Settings -->
-        <div class="settings col-md-6">
-            <h2 class="mb-4">Profile Settings</h2>
-            <div class="input">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="profileUsername" placeholder="Enter new username" autocomplete="off" [value]="user.username" #username>
-            </div>
-            <div class="input">
-                <label for="password">Password</label>
-                <input type="text" name="password" id="profilePassword" placeholder="Enter new password" [value]="user.password" #password>
-            </div>
-            <div class="input">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="profileEmail" placeholder="Enter new email" autocomplete="off" [value]="user.email" #email>
-            </div>
-            <button id="saveBtn" class="mt-3" (click)="saveChanges(username, password, email)">Save Changes</button>
-            <p class="errorMessage mt-3" [style.display] = "isError? 'block' : 'none'">{{errorMes}}</p>
-        </div>
-    </div>
-</section>
+
+      </div>
 
 
-<!-- section create a post -->
-<section class="createPost">
-    <div class="container">
-        <h2>Create a post</h2>
-        <div class="create">
-            <form action="" class="row" (submit)="createPost($event)">
-                <input type="text" name="title" id="" placeholder="Title" class="col-md-6" required #title>
-                <input type="text" name="description" id="" placeholder="Description" class="col-md-6" required #desc>
-                <textarea name="details" id="" placeholder="Details" class="col-12" required #details></textarea>
+      <!-- Profile Settings -->
+      <div class="col-12 col-lg-6">
 
+        <div class="card border-0 shadow-sm p-4 p-md-5">
 
-                <div class="col-md-6">
-                    <label for="image">Upload an Image (Optional):</label>
-                    <input type="file" name="image" id="image" accept="image/*" class="optionalInput" #image>
+          <h2 class="fw-bold mb-4">
+            Profile Settings
+          </h2>
+
+          <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
+
+            <!-- Username -->
+            <div class="mb-3">
+
+              <label for="username" class="form-label">
+                Username
+              </label>
+
+              <input
+                id="username"
+                type="text"
+                class="form-control"
+                formControlName="username"
+                placeholder="Enter your username"
+              >
+
+              @if (
+                profileForm.controls.username.touched &&
+                profileForm.controls.username.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  Username is required and must be at least 3 characters.
                 </div>
+              }
 
-                <button class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-
-</section>
+            </div>
 
 
-    <!-- section show posts -->
-<section class="showPost">
-    <div class="container">
-        <h2 style="font-size: 40px; text-transform: uppercase; text-align: center; margin: 40px 0;">Posts</h2>
-        <div class="posts row">
-            @if (user.posts.length > 0) {
-                @for (post of user.posts; track $index) {
-                    @if (post.image === null) {
-                        <div class="singlePost col-12">
-                            <h2 style="margin: 0px 0 20px 0;">{{post.title}}</h2>
-                            <p>{{post.description}}</p>
-                            <p>{{post.details}}</p>
-                            <p>Author: {{user.username}}</p>
-                            <p>Date: {{post.date}}</p>
-                            <div class="heart">
-                                <i class="me-2 fa-regular fa-heart " [class.fa-solid] = "isClicked" [style.color] = "isClicked ? '#007BFF' : '#777777'" (click)="addLike()"></i>
-                                <p>{{number}}</p>
-                            </div>
-                        </div>
-                    }
+            <!-- Password -->
+            <div class="mb-3">
 
-                    @else {
-                    <!-- with image -->
-                    <div class="singlePostWithImg row col-12">
-                        <img class="col-md-6" [src]="post.image" alt="Post Image">
-                        <div class="postDetail col-md-6">
-                            <h2 style="margin: 0px 0 20px 0;">{{post.title}}</h2>
-                            <p>{{post.description}}</p>
-                            <p>{{post.details}}</p>
-                            <p>Author: {{user.username}}</p>
-                            <p>Date: {{post.date}}</p>
-                            <div class="heart">
-                                <i class="me-2 fa-regular fa-heart " [class.fa-solid] = "isClicked" [style.color] = "isClicked ? '#007BFF' : '#777777'" (click)="addLike()"></i>
-                                <p>{{number}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    }
-                }
-            } @else {
-                <p class="noPost">You Don't Have Posts.</p>
+              <label for="password" class="form-label">
+                Password
+              </label>
+
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Enter your password"
+              >
+
+              @if (
+                profileForm.controls.password.touched &&
+                profileForm.controls.password.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  Password must be at least 6 characters.
+                </div>
+              }
+
+            </div>
+
+
+            <!-- Email -->
+            <div class="mb-3">
+
+              <label for="email" class="form-label">
+                Email
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="Enter your email"
+              >
+
+              @if (
+                profileForm.controls.email.touched &&
+                profileForm.controls.email.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  Please enter a valid email.
+                </div>
+              }
+
+            </div>
+
+
+            <!-- Error -->
+            @if (isError) {
+              <div class="alert alert-danger py-2">
+                {{ errorMes }}
+              </div>
             }
 
+
+            <!-- Success -->
+            @if (isSaved) {
+              <div class="alert alert-success py-2">
+                Profile updated successfully.
+              </div>
+            }
+
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mt-2"
+              [disabled]="profileForm.invalid"
+            >
+              Save Changes
+            </button>
+
+          </form>
+
         </div>
+
+      </div>
+
     </div>
+
+  </div>
 </section>
-<app-footer></app-footer>
+
+
+<!-- =========================
+     Create Post
+     ========================= -->
+<section class="create-post-section py-5">
+
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="text-primary fw-semibold">
+        SHARE YOUR STORY
+      </span>
+
+      <h2 class="display-6 fw-bold mt-2">
+        Create a Post
+      </h2>
+
+      <p class="text-secondary">
+        Share your travel experience with the world.
+      </p>
+    </div>
+
+
+    <div class="row justify-content-center">
+
+      <div class="col-12 col-lg-8">
+
+        <div class="card border-0 shadow-sm p-4 p-md-5">
+
+          <form
+            [formGroup]="postForm"
+            (ngSubmit)="createPost()"
+          >
+
+            <!-- Title -->
+            <div class="mb-3">
+
+              <label for="title" class="form-label">
+                Title
+              </label>
+
+              <input
+                id="title"
+                type="text"
+                class="form-control"
+                formControlName="title"
+                placeholder="Enter your post title"
+              >
+
+              @if (
+                postForm.controls.title.touched &&
+                postForm.controls.title.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  Title is required.
+                </div>
+              }
+
+            </div>
+
+
+            <!-- Description -->
+            <div class="mb-3">
+
+              <label for="description" class="form-label">
+                Description
+              </label>
+
+              <input
+                id="description"
+                type="text"
+                class="form-control"
+                formControlName="description"
+                placeholder="Write a short description"
+              >
+
+              @if (
+                postForm.controls.description.touched &&
+                postForm.controls.description.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  Description is required.
+                </div>
+              }
+
+            </div>
+
+
+            <!-- Details -->
+            <div class="mb-3">
+
+              <label for="details" class="form-label">
+                Details
+              </label>
+
+              <textarea
+                id="details"
+                class="form-control"
+                rows="7"
+                formControlName="details"
+                placeholder="Write your story..."
+              ></textarea>
+
+              @if (
+                postForm.controls.details.touched &&
+                postForm.controls.details.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  Details are required.
+                </div>
+              }
+
+            </div>
+
+
+            <!-- Image -->
+            <div class="mb-4">
+
+              <label for="image" class="form-label">
+                Upload an Image
+                <span class="text-secondary">(Optional)</span>
+              </label>
+
+              <input
+                id="image"
+                type="file"
+                class="form-control"
+                accept="image/*"
+                (change)="onImageSelected($event)"
+              >
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="postForm.invalid"
+            >
+              Create Post
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     User Posts
+     ========================= -->
+<section class="posts-section py-5">
+
+  <div class="container">
+
+    <div class="text-center mb-5">
+
+      <span class="text-primary fw-semibold">
+        YOUR CONTENT
+      </span>
+
+      <h2 class="display-6 fw-bold mt-2">
+        Your Posts
+      </h2>
+
+    </div>
+
+
+    @if (user.posts.length > 0) {
+
+      <div class="row g-4">
+
+        @for (post of user.posts; track $index) {
+
+          <div class="col-12">
+
+            <div class="card border-0 shadow-sm overflow-hidden">
+
+              <div class="row g-0">
+
+                <!-- Image -->
+                @if (post.image) {
+
+                  <div class="col-12 col-lg-5">
+
+                    <img
+                      [src]="post.image"
+                      [alt]="post.title"
+                      class="post-image w-100 h-100"
+                    >
+
+                  </div>
+
+                }
+
+
+                <!-- Content -->
+                <div
+                  [class]="post.image
+                    ? 'col-12 col-lg-7'
+                    : 'col-12'"
+                >
+
+                  <div class="card-body p-4 p-md-5">
+
+                    <h3 class="fw-bold mb-3">
+                      {{ post.title }}
+                    </h3>
+
+                    <p class="text-primary fw-semibold">
+                      {{ post.description }}
+                    </p>
+
+                    <p class="text-secondary">
+                      {{ post.details }}
+                    </p>
+
+                    <div class="small text-secondary mt-4">
+
+                      <p class="mb-1">
+                        <strong>Author:</strong>
+                        {{ user.username }}
+                      </p>
+
+                      <p class="mb-0">
+                        <strong>Date:</strong>
+                        {{ post.date }}
+                      </p>
+
+                    </div>
+
+
+                    <!-- Like -->
+                    <div class="d-flex align-items-center gap-2 mt-4">
+
+                      <button
+                        type="button"
+                        class="btn btn-link p-0"
+                        (click)="addLike()"
+                      >
+
+                        <i
+                          class="fa-heart"
+                          [class.fa-regular]="!isClicked"
+                          [class.fa-solid]="isClicked"
+                          [class.text-primary]="isClicked"
+                          [class.text-secondary]="!isClicked"
+                        ></i>
+
+                      </button>
+
+                      <span>
+                        {{ number }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="text-center py-5">
+
+        <i class="fa-regular fa-file-lines empty-icon mb-3"></i>
+
+        <h4 class="fw-bold">
+          No Posts Yet
+        </h4>
+
+        <p class="text-secondary">
+          Start sharing your travel experiences.
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+</section>
